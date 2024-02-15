@@ -1,0 +1,110 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Webová aplikácia - Nový článok</title>
+
+        <link th:rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+        <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <link th:rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <div class="header">
+            <div class="container">
+                <div class="header-inner">
+                    <a th:href="@{/}" class="navbar-brand site-name">WA</a>
+                    <nav class="navbar main-nav">
+                        <button class="navbar-toggler hidden-md-up" type="button" data-toggle="collapse" data-target="#tmNavbar">
+                        </button>
+
+                        <div class="collapse navbar-toggleable-sm" id="tmNavbar">
+                            <ul class="nav navbar-nav">
+                                <li class="nav-item active">
+                                    <a th:href="@{/}" class="nav-link">Domov</a>
+                                </li>
+                                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                                    <a href="login" class="nav-link">Prihlásenie</a>
+                                </li>
+                                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                                    <a href="register" class="nav-link">Registrácia</a>
+                                </li>
+                                <li class="nav-item" sec:authorize="isAuthenticated()">
+                                    <a th:href="@{/posts/new}" class="nav-link">Pridať článok</a>
+                                </li>
+                                <li class="nav-item" sec:authorize="isAuthenticated()">
+                                    <form th:action="@{/logout}" method="POST">
+                                        <button type="submit" class="btn">Odhlásiť sa</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-container">
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                            <h3 class="gold-text form-title">Nový článok</h3>
+                            <p class="form-description">Nižšie môžete pridať nový článok</p>
+
+                            <form class="forms" action="#" th:action="@{'/posts/new'}" th:object="${post}" enctype="multipart/form-data" method="post">
+                                <input type="hidden" th:field="*{createdAt}" >
+                                <div class="form-group">
+                                    <img th:src="@{'/images/' + *{imageFilePath}}" height="200px" class="img-fluid" />
+                                    <input id="input-file" type="file" name="file" class="btn btn-outline-info" accept="image/png, image/jpeg, image/jpg, image/bmp" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="new-post-title" name="contact_name" class="form-control" th:field="*{title}" placeholder="Názov"  required/>
+                                </div>
+                                <div class="form-group">
+                                    <textarea id="new-post-body" style="width: 100%; height:200px;" th:field="*{body}" placeholder="Text..."></textarea>
+                                </div>
+                                <button type="submit" class="btn">Publikovať</button>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                        <div class="footer-content-box footer-links-container">
+                            <h3 class="gold-text title footer-content-box-title">Moje stránky</h3>
+                            <nav>
+                                <ul class="nav">
+                                    <li><a href="https://www.linkedin.com/in/LukasPatrnciak" class="footer-link">Linked In</a></li>
+                                    <li><a href="https://www.lukaspatrnciak.sk" class="footer-link">LukasPatrnciak.sk</a></li>
+                                    <li><a href="https://www.github.com/LukasPatrnciak" class="footer-link">GitHub</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div class="clearfix hidden-lg-up"></div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                        <div class="footer-content-box">
+                            <h3 class="gold-text title footer-content-box-title">Informácie</h3>
+                            <p class="margin-b-30">Toto je jednoduchá blogovacia stránka s možnosťou vytvorenia účtu</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 copyright-col">
+                        <p class="copyright-text">Copyright &copy 2024 Lukáš Patrnčiak</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
